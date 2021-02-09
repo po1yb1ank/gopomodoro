@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"math/rand"
 	"os/exec"
@@ -11,7 +10,7 @@ import (
 
 func alert(message string) {
 	out, err := exec.Command("cmd", "/C", "msg", "%username%", message).Output()
-	fmt.Println(string(out), err)
+	log.Println(string(out), err)
 }
 func main() {
 	alert("Hello. This is pomodoro method. After 15 seconds the timer will start. ")
