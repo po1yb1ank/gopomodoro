@@ -8,37 +8,45 @@ import (
 	"strconv"
 	"time"
 )
-func alert(message string){
-	out, err := exec.Command("cmd", "/C","msg", "%username%", "").Output()
+
+func alert(message string) {
+	out, err := exec.Command("cmd", "/C", "msg", "%username%", message).Output()
 	fmt.Println(string(out), err)
 }
-func main(){
-	for i := 0; i < 4; i++{
-		alert("MSG")
-		Schedule()
+func main() {
+	alert("Hello. This is pomodoro method. After 15 seconds the timer will start. ")
+	time.Sleep(time.Second * 15)
+	for {
+		for i := 0; i < 4; i++ {
+			alert("Work for 25 minutes")
+			schedule(25)
+			if i != 3 {
+				alert("Have a rest for 5 minutes")
+				schedule(5)
+				continue
+			}
+			alert("Congratulations!\r\nYou deserved a 20 minute long rest\r\nKeep it up!")
+			schedule(20)
+		}
 	}
-
 }
-func Schedule(){
+func schedule(min int) {
 	rand.Seed(time.Now().UnixNano())
-	d, err:= time.ParseDuration(strconv.Itoa(25)+"m")
-	if err != nil{
-		log.Println(err, ",will sleep for 5m")
-		time.Sleep(time.Minute * 5)
+	d, err := time.ParseDuration(strconv.Itoa(min) + "m")
+	if err != nil {
+		time.Sleep(time.Minute * 25)
 		return
 	}
-	log.Println("Time until next commit: ", d.String())
+	log.Println("Time left: ", d.String())
 	go func(d time.Duration) {
-		for range time.Tick(time.Second * 2){
-			if d <= time.Second * 0{
+		for range time.Tick(time.Second * 30) {
+			if d <= time.Second*0 {
 				break
 			}
-			d -= 2 * time.Second
+			d -= 30 * time.Second
 			log.Println(d)
 		}
 	}(d)
-
 	time.Sleep(d)
-	log.Println("Done sleeping!")
 	return
 }
