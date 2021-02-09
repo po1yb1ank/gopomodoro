@@ -25,7 +25,7 @@ func main() {
 				schedule(5)
 				continue
 			}
-			alert("Congratulations!\r\nYou deserved a 20 minute long rest\r\nKeep it up!")
+			alert("Congratulations! You deserved a 20 minute long rest. Keep it up!")
 			schedule(20)
 		}
 	}
